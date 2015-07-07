@@ -182,11 +182,16 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 %end
 %hook SPTPlaylistContentItem
 	- (BOOL)shouldPlayParent {
-		return NO
+		return NO;
 }
 %end
 %hook MPDevice
 - (BOOL)isTablet {
 	return TRUE;
+}
+%end
+%hook InAppPurchaseControllerImplementation
+- (BOOL)isPremiumUser {
+	return FALSE
 }
 %end
