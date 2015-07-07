@@ -127,3 +127,12 @@ return FALSE;
 	return TRUE;
 }
 %end
+%hook SPTAccountSettingsViewModel
+
+- (bool)isTrialAvailable {
+	return TRUE;
+}
+- (int)daysLeftOfProductWithExpiryDate {
+	return 999999999;
+}
+%end
