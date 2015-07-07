@@ -10,6 +10,9 @@
 - (BOOL)isAdsEnabledForProductState:(id)fp8 {
 	return FALSE;
 }
+- (void)load {
+	return NULL;
+}
 %end
 %hook SPTAccountController
 - (BOOL)canActivatePremiumTrial {
@@ -30,6 +33,12 @@
 	- (BOOL)canSeek {
 	return TRUE;
 }
+- (BOOL)canSkipPrevious {
+	return TRUE;
+}
+- (BOOL)canSkipNext {
+	return TRUE;
+}
 %end
 %hook SPTNowPlayingPlaybackController
 - (BOOL)seekingAllowed {
@@ -41,15 +50,36 @@
 - (BOOL)disallowTogglingShuffle {
 return FALSE;
 }
+- (BOOL)canSkipNext {
+	return TRUE;
+}
+- (BOOL)shouldShowSkippingNextUpsell {
+	return TRUE;
+}
+ - (BOOL)canShowSkippingNextUpsell {
+ 	return FALSE;
+ }
 %end
 %hook SPTPlayerRestrictions
 - (BOOL)disallowSeeking {
 	return FALSE;
 }
+- (BOOL)disallowSkippingToNextTrack {
+	return FALSE;
+}
+- (BOOL)disallowSkippingToPreviousTrack {
+	return FALSE:
+}
 %end
 %hook SPTrackContext
 - (BOOL)shuffle {
 	return FALSE:
+}
+- (BOOL)canSkipBackward {
+	return TRUE;
+}
+- (BOOL)canSkipForward {
+	return TRUE;
 }
 %end
 %hook SPTTableViewCell
@@ -63,5 +93,37 @@ return FALSE;
 }
 - (id)baseFeature {
 	return NULL;
+}
+%end
+%hook SPTAdEntityViewModel
+- (BOOL)canSkip {
+	return TRUE;
+}
+%end
+%hook SPTAVPlayerItemLogger
+- (BOOL)skipped {
+	return FALSE;
+}
+%end
+%hook SPTNowPlayingBarModel
+- (BOOL)skippingToNextTrackAllowed {
+	return TRUE;
+}
+- (BOOL)skippingToPreviousTrackAllowed {
+	return TRUE;
+}
+ - (int)numberOfNextSkips {
+ 	return 1;
+ }
+- (int)numberOfPreviousSkips {
+	return 1;
+}
+- (BOOL)shouldShowSkipNextUpsell {
+	return FALSE;
+}
+%end
+%hook SPTProductStateMonitorController
+- (BOOL)isTrialOrPremiumUser {
+	return TRUE;
 }
 %end
