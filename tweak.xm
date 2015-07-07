@@ -147,7 +147,6 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 
 %hook SPTProductState
 
-// Original Values
 -(id)originalValues {
 	return cheatingDict();
 }
@@ -166,24 +165,18 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 	return cheatingDict();
 }
 
-// Overrides
 -(id)overrides {
 	return cheatingDict();
 }
 -(void)setOverrides:(id)arg1 {
 	%orig(cheatingDict());
 }
-
 %end
-%hook SPTProductState-Protocol
--(id)values {
-	return cheatingDict();
+%hook PlaylistFeatureImplementation
+- (id)shuffleFeature {
+	return NULL;
 }
--(id)overrides {
-	return cheatingDict();
-}
--(id)originalValues {
-	return cheatingDict();
+- (void)setShuffleFeature:(id)fp8 {
+	return;
 }
 %end
-
