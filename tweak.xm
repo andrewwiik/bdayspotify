@@ -11,7 +11,7 @@
 	return FALSE;
 }
 - (void)load {
-	return NULL;
+	return;
 }
 %end
 %hook SPTAccountController
@@ -68,12 +68,12 @@ return FALSE;
 	return FALSE;
 }
 - (BOOL)disallowSkippingToPreviousTrack {
-	return FALSE:
+	return FALSE;
 }
 %end
 %hook SPTrackContext
 - (BOOL)shuffle {
-	return FALSE:
+	return FALSE;
 }
 - (BOOL)canSkipBackward {
 	return TRUE;
@@ -134,5 +134,10 @@ return FALSE;
 }
 - (int)daysLeftOfProductWithExpiryDate {
 	return 999999999;
+}
+%end
+%hook ShuffleFeatureImplementation 
+- (void)load {
+	return;
 }
 %end
