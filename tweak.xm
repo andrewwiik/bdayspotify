@@ -84,10 +84,16 @@ return NO;
 - (BOOL)canSkipForward {
 	return YES;
 }
+- (BOOL)hasPlayableContentWhenOnline {
+	return YES;
+}
 %end
 %hook SPTTableViewCell
 - (BOOL)isShuffleTrackCell {
 	return NO;
+}
+- (BOOL)isInteractive {
+	return YES;
 }
 %end
 %hook UpsellFeatureImplementation
@@ -211,5 +217,28 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 %hook SPTTrackContextContentItem
 - (BOOL)playable {
 	return YES;
+}
+%end
+%hook SPTStartPageFeatureImplementation
+- (BOOL)isIPad {
+	return YES;
+}
+%end
+%hook SPTSearchCellRenderingInfo
+- (BOOL)isShuffleTrackCell {
+	return NO;
+}
+%end
+%hook SPTPlaylistFolderContentItem
+- (BOOL)isPlayable {
+	return YES;
+}
+%end
+%hook SPTPlayerTrack
+- (BOOL)isPlayable {
+	return YES;
+}
+- (BOOL)isAdvertisement {
+	return NO;
 }
 %end
