@@ -18,6 +18,9 @@
 - (BOOL)canActivatePremiumTrial {
 	return YES;
 }
+- (int)availableProduct {
+	return 2;
+}
 %end
 %hook SPTAlbumViewController
 - (BOOL)isTabletFreeModeEnabled {
@@ -187,11 +190,26 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 %end
 %hook MPDevice
 - (BOOL)isTablet {
-	return TRUE;
+	return YES;
 }
 %end
 %hook InAppPurchaseControllerImplementation
 - (BOOL)isPremiumUser {
-	return FALSE
+	return YES;
+}
+%end
+%hook SPTUpsellFeatureImplementation 
+- (void)load {
+	return;
+}
+%end
+%hook SPTAccountControllerProductActivation
+- (int)product {
+	return 2;
+}
+%end
+%hook SPTTrackContextContentItem
+- (BOOL)playable {
+	return YES;
 }
 %end
