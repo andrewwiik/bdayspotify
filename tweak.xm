@@ -1,3 +1,11 @@
+%hook SPTCoreCreateOptions
+- (void)setStreamingRulesSupported:(int)fp8 {
+%orig(4);
+}
+- (int)streamingRulesSupported {
+	return 4;
+}
+%end
 %hook SpotifyPreferences
 -(int)audioPlayBitrate {
 	return 320000;
@@ -19,7 +27,7 @@
 	return TRUE;
 }
 - (int)availableProduct {
-	return 2;
+	return 4;
 }
 %end
 %hook SPTExternalPlaybackStatus 
@@ -95,24 +103,21 @@ return FALSE;
 - (BOOL)canSkip {
 	return TRUE;
 }
+- (BOOL)durationViewDisallowSeeking:(id)fp8 {
+	return FALSE;
+}
 %end
 %hook SPTAVPlayerItemLogger
 - (BOOL)skipped {
 	return FALSE;
 }
 %end
-%hook SPTFALSEwPlayingBarModel
+%hook SPTNowPlayingBarModel
 - (BOOL)skippingToNextTrackAllowed {
 	return TRUE;
 }
 - (BOOL)skippingToPreviousTrackAllowed {
 	return TRUE;
-}
- - (int)numberOfNextSkips {
- 	return 1;
- }
-- (int)numberOfPreviousSkips {
-	return 1;
 }
 - (BOOL)shouldShowSkipNextUpsell {
 	return FALSE;
@@ -185,7 +190,7 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 %end
 %hook SPTAccountControllerProductActivation
 - (int)product {
-	return 2;
+	return 4;
 }
 %end
 %hook SPTTrackContextContentItem
@@ -216,8 +221,73 @@ return @{@"detailed-crash-dumps" : @"0", @"remote-control" : @"6", @"connect-dia
 	return FALSE;
 }
 %end
-%hook SPTCoreCreateOptions
-- (int)streamingRulesSupported {
-	return 0;
+%hook SPTNowPlayingDurationDataSource
+- (BOOL)isVisible {
+	return TRUE;
+}
+- (BOOL)shouldDisallowSeeking {
+	return FALSE;
 }
 %end
+%hook SPTNowPlayingDurationView
+- (BOOL)nowPlayingSliderDisallowSeeking:(id)fp8 {
+	return FALSE;
+}
+%end
+%hook SPTNowPlayingPlaybackController
+- (BOOL)seekingAllowed {
+	return TRUE;
+}
+- (id)adsManager {
+	return NULL;
+}
+- (BOOL)previousButtonWouldSeekNotSkip {
+	return FALSE;
+}
+- (BOOL)disallowSkippingToNextTrackWhileDragging:(BOOL)fp8 {
+	return  FALSE;
+	return FALSE;
+}
+%end
+%hook SPTNowPlayingTrackPosition
+- (BOOL)disallowSeekingAlways {
+	return FALSE;
+}
+- (BOOL)disallowSeeking {
+	return FALSE;
+}
+%end
+%hook SPTPlayerRestrictions
+- (id)serializedDictionary {
+	return NULL;
+}
+- (BOOL)disallowRemoteControl { return FALSE; }
+- (BOOL)disallowTransferringPlayback { return FALSE; }
+- (BOOL)disallowStopping { return FALSE; }
+- (BOOL)disallowPlaying { return FALSE; }
+- (BOOL)disallowSeeking { return FALSE; }
+- (BOOL)disallowTogglingShuffle { return FALSE; }
+- (BOOL)disallowTogglingRepeatTrack { return FALSE; }
+- (BOOL)disallowTogglingRepeatContext { return FALSE; }
+- (BOOL)disallowResuming { return FALSE; }
+- (BOOL)disallowPausing { return FALSE; }
+- (BOOL)disallowSkippingToNextTrack { return FALSE; }
+- (BOOL)disallowSkippingToPreviousTrack { return FALSE; }
+- (BOOL)disallowPeekingAtNextTrack { return FALSE; }
+- (BOOL)disallowPeekingAtPreviousTrack { return FALSE; }
+%end
+%hook SPTStatefulPlayer
+- (BOOL)disallowSeekingAlways {return FALSE; }
+- (BOOL)disallowSeeking {return FALSE; }
+- (BOOL)disallowSkippingToRelativeIndex:(int)fp8 {
+	return FALSE;
+	%orig;
+}
+%end
+%hook SPTNowPlayingTrackMetadataQueue
+- (BOOL)disallowSkippingToRelativeIndex:(int)fp8 {
+	return FALSE;
+	%orig
+}
+%end
+
