@@ -1,4 +1,11 @@
+@interface SPTNowPlayingBarModel : NSObject
+@property(nonatomic, getter=isPlaying) _Bool playing;
+- (void)resume;
+- (void)pause;
+@end
+
 @interface NowPlayingBarViewControllerIPhone : UIViewController
+@property(retain, nonatomic) SPTNowPlayingBarModel *nowPlayingModel;
 - (void)playPause;
 @end
 
