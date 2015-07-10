@@ -17,6 +17,8 @@ YES;
 %hook PlaylistViewController
 - (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
 	[(NowPlayingBarViewControllerIPhone *)[[[self metaViewController] barViewController] barViewController] playPause];
-	%orig;
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+		%orig;
+	});
 }
 %end
