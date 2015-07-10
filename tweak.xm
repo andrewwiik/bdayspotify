@@ -11,7 +11,7 @@
 %end
 %hook SPTSearchPlayer
 - (void)playSearchEntityAtIndexPath:(id)arg1 pauseIfPlaying:(_Bool)arg2 {
-YES;
+	%orig;
 }
 %end
 %hook PlaylistViewController
@@ -29,3 +29,33 @@ YES;
 	return nil;
 }
 %end
+%hook ShuffleFeatureImplementation
+- (void)productState:(id)arg1 stateDidChange:(id)arg2 {
+	return;
+}
+- (void)enableShuffleMode {
+	return;
+}
+%end
+%hook SPTSearchRequestParameters
+-(BOOL)shuffleMode {
+	return NO;
+}
+%end
+/*%hook SPTProductState
+-(NSDictionary *)originalValues {
+	NSMutableDictionary *dict = [%orig mutableCopy];
+	[dict setObject:@"" forKey:@"streaming-rules"];
+	[dict setObject:@"0" forKey:@"shuffle"];
+	return [NSDictionary dictionaryWithDictionary:dict];
+}
+
+- (id)stringForKey:(id)arg1 {
+	if ([arg1 isEqualToString:@"streaming-rules"]) {
+		return @"";
+	} else if ([arg1 isEqualToString:@"shuffle"]) {
+		return @"0";
+	}
+	return %orig;
+}
+%end*/
