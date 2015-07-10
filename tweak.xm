@@ -24,3 +24,8 @@ YES;
 	});
 }
 %end
+%hook SPTUpsellPagingViewController
+- (id)initWithFrame:(struct CGRect)arg1 withTheme:(id)arg2 productActivationController:(id)arg3 context:(id)arg4 experiments:(id)arg5 upsoldProduct:(long long)arg6 reason:(long long)arg7 logger:(id)arg8 {
+	return nil;
+}
+%end
