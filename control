@@ -1,0 +1,9 @@
+Package: com.andywiik.bdayspotify
+Name: BdaySpotify
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Disable shuffle mode on Spotify and more!
+Maintainer: Andy Wiik
+Author: Andy Wiik
+Section: Tweaks
