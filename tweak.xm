@@ -1,4 +1,5 @@
 #import "BdaySpotify.h"
+@class shared_ptr_1ac160cb;
 %hook SPTTableViewCell
 - (BOOL)isInteractive {
 	return TRUE;
@@ -53,11 +54,14 @@
 	return NO;
 }
 %end
-/*%hook SPTProductState
+%hook SPTProductState
 -(NSDictionary *)originalValues {
 	NSMutableDictionary *dict = [%orig mutableCopy];
 	[dict setObject:@"" forKey:@"streaming-rules"];
 	[dict setObject:@"0" forKey:@"shuffle"];
+	[dict setObject:@"premium" forKey:@"type"];
+	[dict setObject:@"1" forKey:@"unrestricted"];
+	[dict setObject:@"0" forKey:@"ads"];
 	return [NSDictionary dictionaryWithDictionary:dict];
 }
 
@@ -67,6 +71,95 @@
 	} else if ([arg1 isEqualToString:@"shuffle"]) {
 		return @"0";
 	}
+	if ([arg1 isEqualToString:@"type"]) {
+		return @"premium";
+	} else if ([arg1 isEqualToString:@"unrestricted"]) {
+		return @"1";
+	}
 	return %orig;
 }
-%end*/
+%end
+%hook SPTStatefulPlayerTrackPosition
+- (BOOL)isNoticeablePositionChange:(double)arg1 from:(double)arg2
+{return TRUE;}
+- (BOOL)deriveDisallowSeeking {return FALSE;}
+- (BOOL)deriveDisallowSeekingAlway {return  FALSE;}
+- (BOOL)disallowSeekingAlways {
+	return FALSE;
+}
+- (BOOL)disallowSeeking {
+	return FALSE;
+}
+-(id)restrictions {
+	return nil;
+}
+%end
+%hook SPTStatefulPlayer
+- (BOOL)disallowSeekingAlways {return FALSE;}
+- (BOOL)disallowSeeking {return FALSE;}
+-(id)restrictions {
+	return nil;
+}
+%end
+%hook SPTNowPlayingPlaybackController
+- (BOOL)seekingAllowed {
+	return TRUE;
+}
+- (BOOL)scrubbing {
+	return TRUE;
+}
+
+%end
+%hook SPTNowPlayingDurationDataSource
+- (BOOL)isVisible {
+	return TRUE;
+}
+- (BOOL)shouldDisallowSeeking {
+	return FALSE;
+}
+- (BOOL)durationViewDisallowSeeking:(id)arg1 {
+	return FALSE;
+}
+- (void)updateDisallowSeeking:(BOOL)arg1 {
+	%orig(TRUE);
+}
+%end
+%hook SPTNowPlayingTrackPosition
+- (BOOL)disallowSeekingAlways {
+	return FALSE;
+}
+- (BOOL)disallowSeeking {
+	return FALSE;
+}
+%end
+%hook SPTPlayerRestrictions
+- (id)serializedDictionary {
+	return nil;
+}
+- (id)initWithDictionary:(id)arg1 {
+return nil;
+arg1 = nil;
+}
+%end
+%hook SPTPlayerState
+-(id)restrictions {
+	return nil;
+}
+%end
+%hook SPTNowPlayingDurationView
+- (BOOL)nowPlayingSliderDisallowSeeking:(id)arg1 {
+	return FALSE;
+}
+%end
+%hook SPTNowPlayingViewController
+- (BOOL)durationViewDisallowSeeking:(id)arg1 {
+	return FALSE;
+}
+%end
+%hook SPTPlayerFeatureImplementation
+-(id)_mftSequenceRules {return nil;}
+-(void)load {
+	 [self setValue:nil forKey:@"_mftSequenceRules"];
+	 %orig;
+}
+%end
