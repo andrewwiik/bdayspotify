@@ -626,3 +626,132 @@ static id model;
 }
 
 %end
+
+%hook SpotifyPreferences
+
+- (long long)audioPlayBitrate {
+	return 320;
+}
+
+%end
+
+%hook SPTPlayerRestrictions
+
+- (bool)disallowSkippingToNextTrack {
+	return NO;
+}
+
+- (BOOL)disallowSkippingToPreviousTrack {
+	return NO;
+}
+
+- (BOOL)disallowSeeking {
+	return NO;
+}
+
+- (BOOL)disallowPlaying {
+	return NO;
+}
+
+- (id)disallowSkippingToNextTrackReasons {
+	return nil;
+}
+
+- (id)disallowStoppingReasons {
+	return nil;
+}
+
+- (id)initWithDictionary:(id)arg1 {
+	return nil;
+}
+
+%end
+
+%hook SPTStatefulPlayerQueue
+
+- (BOOL)predictQueueRestrictionForRelativeIndex:(int)arg1 disallowPrevious:(BOOL)arg2 disallowNext:(BOOL)arg3 {
+	return NO;
+	arg2=NO;
+	arg3=NO;
+}
+%end
+
+%hook SPTrackContext
+
+- (BOOL)canSkipForward {
+	return YES;
+}
+
+- (BOOL)canSkipBackward {
+	return YES;
+}
+
+- (BOOL)canRepeat {
+	return YES;
+}
+
+%end
+
+%hook SPTStatefulPlayerPlaybackControls
+
+- (id)observers {
+	return nil;
+}
+
+%end
+
+%hook RadioFeatureImplementation
+
+- (id)ads {
+	return nil;
+}
+
+%end
+
+%hook SPTRadioManager
+
+- (id)featureFlags {
+	return nil;
+}
+
+- (id)observers {
+	return nil;
+}
+
+%end
+
+%hook SPTUpsellPlaybackErrorManager
+
+- (void)showOnlyAvailableInPremiumDialog {
+
+}
+
+- (id)upsellManager {
+	return nil;
+}
+
+%end
+
+%hook SPTErrorPlaybackDialogs
+
+- (void)showOnlyAvailableInPremiumDialogForError:(id)arg1 {
+
+}
+
+%end
+
+%hook SPTAccountFeatureImplementation
+
+- (id)currentProductMonitor {
+	return nil;
+}
+
+- (id)provideUpsellViewController {
+	return nil;
+}
+
+- (id)accountFeatureLogging {
+	return nil;
+}
+
+%end
