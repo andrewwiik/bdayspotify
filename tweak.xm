@@ -739,19 +739,3 @@ static id model;
 }
 
 %end
-
-%hook SPTAccountFeatureImplementation
-
-- (id)currentProductMonitor {
-	return nil;
-}
-
-- (id)provideUpsellViewController {
-	return nil;
-}
-
-- (id)accountFeatureLogging {
-	return nil;
-}
-
-%end
