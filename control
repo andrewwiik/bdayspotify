@@ -1,9 +1,9 @@
-Package: com.andywiik.bdayspotify
-Name: BdaySpotify
+Package: com.atwiiks.bdayspotify2
+Name: BDaySpotify 2
 Depends: mobilesubstrate
-Version: 0.0.1
+Version: 1.0
 Architecture: iphoneos-arm
-Description: Disable shuffle mode on Spotify and more!
-Maintainer: Andy Wiik
-Author: Andy Wiik
+Description: Current features: Seeking, Choose any song in search and My Music, Unlimited Skips.
+Maintainer: ATWiiks & Tony Kraft <iostonykraft@gmail.com>
+Author: ATWiiks & Tony Kraft <iostonykraft@gmail.com>
 Section: Tweaks
