@@ -613,4 +613,8 @@ static __attribute__((constructor)) void _logosLocalCtor_eb769390() {
 	return NO;
 }
 
+- (void)processAudioMetadata:(id)arg1 {
+	nil;
+}
+
 %end
