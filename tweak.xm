@@ -1,3 +1,15 @@
+#define PLIST_PATH @"/User/Library/Preferences/com.tonykraft.bdayprefs.plist"
+
+inline bool GetPrefBool(NSString *key) {
+    bool defaultValueWhenPreferenceIsMissing = true;
+    NSNumber *preferenceValue = [[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key];
+
+    if (!preferenceValue) {
+        return defaultValueWhenPreferenceIsMissing;
+    }
+    return [preferenceValue boolValue];
+}
+
 #import "BdaySpotify.h"
 @class shared_ptr_1ac160cb;
 %hook SPTTableViewCell
@@ -596,25 +608,24 @@ static __attribute__((constructor)) void _logosLocalCtor_eb769390() {
     MSHookFunction((void *)MSFindSymbol(NULL,"_sysctlbyname"), (void *)my_sysctlbyname, (void **)&orig_sysctlbyname);
 }
 
-%hook SPTAdsViewModel
 
-- (BOOL)triggerAd {
-	return NO;
-}
-- (BOOL)playAd {
-	return NO;
-}
+%hook SpotifyPreferences
 
-- (void)disableAds:(BOOL)arg1 onSlot:(id)arg2 reason:(id)arg3 {
-	arg1=YES;
+- (long long)audioPlayBitrate {
+	if (GetPrefBool(@"extreme")) return 320;
+	return %orig;
 }
 
-- (BOOL)shouldTriggerOnNextTrack:(id)arg1 {
-	return NO;
+%end
+
+%hook ASIdentifierManager
+
+- (id)advertisingIdentifier {
+	return nil;
 }
 
-- (void)processAudioMetadata:(id)arg1 {
-	nil;
++ (id)sharedManager {
+	return nil;
 }
 
 %end
