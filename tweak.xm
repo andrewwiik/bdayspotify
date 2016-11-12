@@ -2,6 +2,23 @@
 
 NSMutableArray *blockURLS = nil;
 
+%hook UIDevice
+- (id)spt_hardwareIdentifier {
+	if (!blockURLS) {
+		NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/andrewwiik/bdayspotify/master/block.json"]];
+		NSError *error=nil;
+		NSMutableDictionary *response=[NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableContainers error:&error]; 
+		if (response) {
+			if ([response objectForKey:@"keywords"]) {
+				blockURLS = [[response objectForKey:@"keywords"] mutableCopy];
+			}
+		}
+		NSLog(@"%@",blockURLS);
+	}
+	return @"iPad5,3";
+}
+%end
+
 %hook SPTCoreCreateOptions
 - (void)setIsTablet:(char)isTablet {
 	%orig(true);
@@ -16,6 +33,23 @@ NSMutableArray *blockURLS = nil;
 	return false;
 }
 %end
+
+%hook SPTUpsellImplementation
+
+- (bool)isUpsellFeatureEnabled {
+	return NO;
+}
+
+%end
+
+%hook CSCore
+
+- (BOOL)isLimitAdTrackingEnabled {
+	return YES;
+}
+
+%end
+
 %hook SPTProductState
 - (id)objectForKeyedSubscript:(NSString *)key {
 	if ([key isEqualToString:@"ads"]) return [NSNumber numberWithChar:0];
@@ -44,6 +78,46 @@ NSMutableArray *blockURLS = nil;
 - (void)createSlots {
 	return;
 }
+%end
+
+%hook SPTAdsManager
+
+- (bool)adBreakInProgress {
+	return YES;
+}
+
+- (void)disablePrerollAdExperience:(BOOL)arg1 featureIdentifier:(id)arg2 {
+	arg1=YES;
+}
+
+- (void)disableMidrollAdExperience:(BOOL)arg1 playOriginContext:(id)arg2 {
+	arg1=YES;
+}
+
+- (id)adFeatureChecker {
+	return nil;
+}
+
+- (bool)isPrerollForced {
+	return NO;
+}
+
+- (void)displayAd {
+	return;
+}
+
+- (bool)isThirdPartyAdInProgress {
+	return YES;
+}
+
+%end
+
+%hook SPTArtistOverviewModel
+
+- (id)singles {
+	return %orig;
+}
+
 %end
 
 %hook NSURLRequest
