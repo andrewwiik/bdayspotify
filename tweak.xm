@@ -1,6 +1,7 @@
 #import "RegExCategories.h"
 
 NSMutableArray *blockURLS = nil;
+NSString *iPadAir2 = @"iPad5,3";
 
 %hook UIDevice
 - (id)spt_hardwareIdentifier {
@@ -14,7 +15,8 @@ NSMutableArray *blockURLS = nil;
 			}
 		}
 		NSLog(@"%@",blockURLS);
-	}
+		}
+	if (iPadAir2) return @"iPad3,4";
 	return @"iPad5,3";
 }
 %end
