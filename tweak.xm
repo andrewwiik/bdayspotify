@@ -15,9 +15,9 @@ NSString *iPadAir2 = @"iPad5,3";
 			}
 		}
 		NSLog(@"%@",blockURLS);
-		}
-	if (iPadAir2) return @"iPad3,4";
-	return @"iPad5,3";
+	}
+	if (!iPadAir2) return @"iPad5,3";
+	return %orig;
 }
 %end
 
