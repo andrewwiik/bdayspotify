@@ -1,6 +1,7 @@
 #import "RegExCategories.h"
 
 NSMutableArray *blockURLS = nil;
+
 NSString *iPadAir2 = @"iPad5,3";
 
 %hook UIDevice
@@ -18,44 +19,6 @@ NSString *iPadAir2 = @"iPad5,3";
 	}
 	if (!iPadAir2) return @"iPad5,3";
 	return %orig;
-}
-%end
-
-%hook SPTCoreCreateOptions
-- (void)setIsTablet:(char)isTablet {
-	%orig(true);
-}
-- (void)setEnableMftRulesForPlayer:(char)enable {
-	%orig(false);
-}
-%end
-
-%hook SPTAdFeatureFlagChecks
-- (char)isAdsEnabled {
-	return false;
-}
-%end
-
-%hook SPTUpsellImplementation
-
-#import "RegExCategories.h"
-
-NSMutableArray *blockURLS = nil;
-
-%hook UIDevice
-- (id)spt_hardwareIdentifier {
-	if (!blockURLS) {
-		NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/andrewwiik/bdayspotify/master/block.json"]];
-		NSError *error=nil;
-		NSMutableDictionary *response=[NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableContainers error:&error]; 
-		if (response) {
-			if ([response objectForKey:@"keywords"]) {
-				blockURLS = [[response objectForKey:@"keywords"] mutableCopy];
-			}
-		}
-		NSLog(@"%@",blockURLS);
-	}
-	return @"iPad5,3";
 }
 %end
 
